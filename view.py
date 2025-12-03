@@ -8,7 +8,9 @@ controller = None
 balance_label = None
 ambar_label = None
 warehouse_label = None
+
 field_buttons = []
+field_labels = []
 
 plant_var = None
 fert_var = None
@@ -19,14 +21,14 @@ sell_info_label = None
 def create_view(app_model, app_controller):
     global root, model, controller
     global balance_label, ambar_label, warehouse_label
-    global field_buttons, plant_var, fert_var, sell_var, sell_info_label
+    global field_buttons, field_labels, plant_var, fert_var, sell_var, sell_info_label
 
     model = app_model
     controller = app_controller
 
     root = tk.Tk()
     root.title("Ферма")
-    root.geometry("800x600")
+    root.geometry("1000x710")
 
     balance_label = tk.Label(root, font=("Arial", 16))
     balance_label.pack(pady=5)
@@ -40,51 +42,102 @@ def create_view(app_model, app_controller):
     frame_select = tk.Frame(root, bd=2, relief="groove", padx=10, pady=10)
     frame_select.pack(pady=10)
 
-    tk.Label(frame_select, text="Рослина:").grid(row=0, column=0, padx=5, pady=5)
-    plant_names = [p.name for p in model.plants]
-    plant_var = tk.StringVar(value=plant_names[0])
-    tk.OptionMenu(frame_select, plant_var, *plant_names).grid(row=0, column=1)
+    tk.Label(frame_select, text="Рослина:").grid(row=0, column=0, padx=5)
+    plant_var = tk.StringVar(value=model.plants[0].name)
+    tk.OptionMenu(frame_select, plant_var, *[p.name for p in model.plants]).grid(row=0, column=1)
 
-    tk.Label(frame_select, text="Добриво:").grid(row=1, column=0, padx=5, pady=5)
-    fert_names = ["Без добрива"] + [f.name for f in model.fertilizers]
-    fert_var = tk.StringVar(value=fert_names[0])
-    tk.OptionMenu(frame_select, fert_var, *fert_names).grid(row=1, column=1)
+    tk.Label(frame_select, text="Добриво:").grid(row=1, column=0, padx=5)
+    fert_var = tk.StringVar(value="Без добрива")
+    tk.OptionMenu(frame_select, fert_var, "Без добрива", *[f.name for f in model.fertilizers]).grid(row=1, column=1)
 
     frame_fields = tk.Frame(root, bd=2, relief="groove", padx=10, pady=10)
     frame_fields.pack(pady=10)
 
-    tk.Label(frame_fields, text="Поля ферми").grid(row=0, column=0, columnspan=4)
+    field_buttons.clear()
+    field_labels.clear()
 
-    field_buttons = []
-    for i in range(len(model.fields)):
-        btn = tk.Button(
-            frame_fields,
-            text=f"Поле {i+1}: пусто",
-            width=20,
-            command=lambda idx=i: on_field_click(idx)
-        )
-        btn.grid(row=1, column=i, padx=10, pady=10)
-        field_buttons.append(btn)
+    btn_field1 = tk.Button(
+        frame_fields,
+        text="",
+        width=100,
+        height=200,
+        compound="top",
+        command=lambda: on_field_click(0)
+    )
+    btn_field1.grid(row=0, column=0, padx=20, pady=5)
+    field_buttons.append(btn_field1)
+
+    lbl_field1 = tk.Label(frame_fields, text="Поле 1: пусто")
+    lbl_field1.grid(row=1, column=0, padx=20, pady=5)
+    field_labels.append(lbl_field1)
+
+    btn_field2 = tk.Button(
+        frame_fields,
+        text="",
+        width=100,
+        height=200,
+        compound="top",
+        command=lambda: on_field_click(1)
+    )
+    btn_field2.grid(row=0, column=1, padx=20, pady=5)
+    field_buttons.append(btn_field2)
+
+    lbl_field2 = tk.Label(frame_fields, text="Поле 2: пусто")
+    lbl_field2.grid(row=1, column=1, padx=20, pady=5)
+    field_labels.append(lbl_field2)
+
+    btn_field3 = tk.Button(
+        frame_fields,
+        text="",
+        width=100,
+        height=200,
+        compound="top",
+        command=lambda: on_field_click(2)
+    )
+    btn_field3.grid(row=0, column=2, padx=20, pady=5)
+    field_buttons.append(btn_field3)
+
+    lbl_field3 = tk.Label(frame_fields, text="Поле 3: пусто")
+    lbl_field3.grid(row=1, column=2, padx=20, pady=5)
+    field_labels.append(lbl_field3)
+
+    btn_field4 = tk.Button(
+        frame_fields,
+        text="",
+        width=100,
+        height=200,
+        compound="top",
+        command=lambda: on_field_click(3)
+    )
+    btn_field4.grid(row=0, column=3, padx=20, pady=5)
+    field_buttons.append(btn_field4)
+
+    lbl_field4 = tk.Label(frame_fields, text="Поле 4: пусто")
+    lbl_field4.grid(row=1, column=3, padx=20, pady=5)
+    field_labels.append(lbl_field4)
+
+    for i in range(4):
+        update_field_bg(i, 0)
 
     frame_shop = tk.Frame(root, bd=2, relief="groove", padx=10, pady=10)
-    frame_shop.pack(pady=10)
+    frame_shop.pack()
 
-    tk.Label(frame_shop, text="Магазин добрив").grid(row=0, column=0, sticky="w")
+    tk.Label(frame_shop, text="Магазин добрив").pack(anchor="w")
 
-    for i, fert in enumerate(model.fertilizers):
+    for fert in model.fertilizers:
         tk.Button(
             frame_shop,
-            text=f"Купити: {fert.name} ({fert.price}₴)",
+            text=f"Купити {fert.name} ({fert.price}₴)",
             command=lambda name=fert.name: on_buy_fertilizer(name)
-        ).grid(row=i + 1, column=0, sticky="w", pady=2)
+        ).pack(anchor="w", pady=2)
 
     frame_sell = tk.Frame(root, bd=2, relief="groove", padx=10, pady=10)
-    frame_sell.pack(pady=10)
+    frame_sell.pack()
 
-    tk.Label(frame_sell, text="Продаж урожаю").grid(row=0, column=0, columnspan=2)
+    tk.Label(frame_sell, text="Продаж").grid(row=0, column=0, columnspan=2)
 
-    sell_var = tk.StringVar(value=plant_names[0])
-    tk.OptionMenu(frame_sell, sell_var, *plant_names).grid(row=1, column=0)
+    sell_var = tk.StringVar(value=model.plants[0].name)
+    tk.OptionMenu(frame_sell, sell_var, *[p.name for p in model.plants]).grid(row=1, column=0)
 
     tk.Button(
         frame_sell,
@@ -96,19 +149,26 @@ def create_view(app_model, app_controller):
     sell_info_label.grid(row=2, column=0, columnspan=2)
 
     update_all()
+
     return root
 
 
-def on_buy_fertilizer(fert_name):
-    controller.buy_fertilizer(fert_name)
+def update_field_bg(index, stage):
+    field = model.fields[index]
 
+    if field.plant is None:
+        folder = "IMG_carrot"
+    else:
+        folder = field.plant.image_folder
 
-def on_field_click(field_index):
-    controller.field_clicked(field_index)
+    try:
+        img = tk.PhotoImage(file=f"{folder}/{stage}.png")
+    except Exception:
+        return
 
-
-def on_sell_click():
-    controller.sell_crop(sell_var.get())
+    btn = field_buttons[index]
+    btn.image = img
+    btn.config(image=img)
 
 
 def update_balance():
@@ -116,21 +176,13 @@ def update_balance():
 
 
 def update_ambar():
-    text = ", ".join([f"{name}: {qty}" for name, qty in model.ambar.items()])
+    text = ", ".join([f"{k}: {v}" for k, v in model.ambar.items()])
     ambar_label.config(text="Амбар: " + text)
 
 
 def update_warehouse():
-    text = ", ".join([f"{name}: {qty}" for name, qty in model.warehouse.items()])
+    text = ", ".join([f"{k}: {v}" for k, v in model.warehouse.items()])
     warehouse_label.config(text="Склад добрив: " + text)
-
-
-def update_field(index, text):
-    field_buttons[index].config(text=text)
-
-
-def update_sell_info(text):
-    sell_info_label.config(text=text)
 
 
 def update_all():
@@ -142,10 +194,26 @@ def update_all():
         if field.state == "empty":
             txt = f"Поле {i+1}: пусто"
         elif field.state == "growing":
-            txt = f"Поле {i+1}: росте {field.plant.name}"
-        elif field.state == "ready":
-            txt = f"Поле {i+1}: {field.plant.name} ГОТОВЕ"
-        update_field(i, txt)
+            txt = f"Поле {i+1}: росте"
+        else:
+            txt = f"Поле {i+1}:ГОТОВО"
+        field_labels[i].config(text=txt)
+
+
+def on_buy_fertilizer(name):
+    controller.buy_fertilizer(name)
+
+
+def on_field_click(index):
+    controller.field_clicked(index)
+
+
+def on_sell_click():
+    controller.sell_crop(sell_var.get())
+
+
+def update_sell_info(text):
+    sell_info_label.config(text=text)
 
 
 def show_warning(msg):
