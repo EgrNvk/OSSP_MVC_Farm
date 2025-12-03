@@ -25,3 +25,36 @@ class FarmModel:
         self.fields=[Field(), Field(), Field(), Field()]
         self.ambar={"Пшениця": 0, "Морква": 0, "Кукурудза": 0}
         self.warehouse={"Звичайне добриво (-20%)": 0, "Супер добриво (-50%)": 0}
+
+    def buy_fertilizer(self, fert_name):
+        fertilizer=None
+        for f in self.fertilizers:
+            if f.name==fert_name:
+                fertilizer=f
+                break
+
+        if self.balance<fertilizer.price:
+            return False
+
+        self.balance-=fertilizer.price
+        self.warehouse[fertilizer.name]+=1
+        return True
+
+    def plant_on_field(self, field_index, plant_name, fert_name=None):
+        pass
+
+    def get_grow_time(self, field_index):
+        pass
+
+    def finish_growth(self, field_index):
+        pass
+
+    def harvest(self, field_index):
+        pass
+
+    def sell(self, plant_name):
+        pass
+
+    def plant_on_field(self, field_index, plant_name, fert_name=None):
+        pass
+
