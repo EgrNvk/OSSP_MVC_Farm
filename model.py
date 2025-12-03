@@ -101,14 +101,14 @@ class FarmModel:
         return True
 
     def sell(self, plant_name):
-        if self.ambar[plant_name] <= 0:
+        if self.ambar.get(plant_name, 0) <= 0:
             return 0
 
-        plant = None
-        for p in self.plants:
-            if p.name == plant_name:
-                plant = p
-                break
-
         self.ambar[plant_name] -= 1
-        self.balance += plant.price
+
+        for plant in self.plants:
+            if plant.name == plant_name:
+                price = plant.price
+                self.balance+=price
+                return price
+        return 0
