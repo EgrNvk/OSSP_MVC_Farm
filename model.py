@@ -70,45 +70,45 @@ class FarmModel:
         return True
 
 
-def get_grow_time(self, field_index):
-    field = self.fields[field_index]
-    if field.plant is None:
-        return 0
+    def get_grow_time(self, field_index):
+        field = self.fields[field_index]
+        if field.plant is None:
+            return 0
 
-    base = field.plant.grow_time
-    if field.fertilizer is None:
-        return base
+        base = field.plant.grow_time
+        if field.fertilizer is None:
+            return base
 
-    return int(base * field.fertilizer.multiplier)
+        return int(base * field.fertilizer.multiplier)
 
-def finish_growth(self, field_index):
-    field = self.fields[field_index]
-    if field.state == "growing":
-        field.state = "ready"
+    def finish_growth(self, field_index):
+        field = self.fields[field_index]
+        if field.state == "growing":
+            field.state = "ready"
 
-def harvest(self, field_index):
-    field = self.fields[field_index]
+    def harvest(self, field_index):
+        field = self.fields[field_index]
 
-    if field.state != "ready":
-        return False
+        if field.state != "ready":
+            return False
 
-    name = field.plant.name
-    self.ambar[name] += 1
+        name = field.plant.name
+        self.ambar[name] += 1
 
-    field.state = "empty"
-    field.plant = None
-    field.fertilizer = None
-    return True
+        field.state = "empty"
+        field.plant = None
+        field.fertilizer = None
+        return True
 
-def sell(self, plant_name):
-    if self.ambar[plant_name] <= 0:
-        return 0
+    def sell(self, plant_name):
+        if self.ambar[plant_name] <= 0:
+            return 0
 
-    plant = None
-    for p in self.plants:
-        if p.name == plant_name:
-            plant = p
-            break
+        plant = None
+        for p in self.plants:
+            if p.name == plant_name:
+                plant = p
+                break
 
-    self.ambar[plant_name] -= 1
-    self.balance += plant.price
+        self.ambar[plant_name] -= 1
+        self.balance += plant.price
