@@ -28,7 +28,7 @@ def create_view(app_model, app_controller):
 
     root = tk.Tk()
     root.title("Ферма")
-    root.geometry("1000x710")
+    root.geometry("1000x705")
 
     balance_label = tk.Label(root, font=("Arial", 16))
     balance_label.pack(pady=5)
