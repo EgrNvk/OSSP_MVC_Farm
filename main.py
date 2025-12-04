@@ -1,6 +1,6 @@
-from model import FarmModel
-import view
-from controller import FarmController
+from Model.model import FarmModel
+from View import view
+from Controller.controller import FarmController
 
 def main():
     model = FarmModel()

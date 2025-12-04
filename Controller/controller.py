@@ -1,6 +1,6 @@
 import threading
 import time
-import view
+from View import view
 
 
 class FarmController:

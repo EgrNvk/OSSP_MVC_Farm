@@ -41,7 +41,7 @@ class Field:
         self.fertilizer=None
 
 class FarmModel:
-    SAVE_FILE="farm_save.txt"
+    SAVE_FILE= "../farm_save.txt"
     def __init__(self):
         self.balance = 50
 
