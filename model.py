@@ -40,6 +40,7 @@ class FarmModel:
         if fert and self.balance >= fert.price:
             self.balance -= fert.price
             self.warehouse[fert.name] += 1
+            self.save_state()
             return True
         return False
 
@@ -59,6 +60,7 @@ class FarmModel:
         field.plant=plant
         field.fertilizer=fert
         field.state="growing"
+        self.save_state()
         return True
 
     def get_grow_time(self, index):
@@ -86,6 +88,7 @@ class FarmModel:
         field.state = "empty"
         field.plant = None
         field.fertilizer = None
+        self.save_state()
         return True
 
     def sell(self, plant_name):
@@ -93,6 +96,7 @@ class FarmModel:
             plant=next(p for p in self.plants if p.name == plant_name)
             self.ambar[plant_name] -= 1
             self.balance += plant.price
+            self.save_state()
             return plant.price
         return 0
 
