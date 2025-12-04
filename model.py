@@ -115,10 +115,10 @@ class FarmModel:
         except Exception:
             return
 
-        self.balance = data["balance", self.balance]
+        self.balance = data.get("balance", self.balance)
 
         saved_ambar = data.get("ambar", {})
-        for name in self.warehouse.keys():
+        for name in self.ambar.keys():
             self.ambar[name] = int(saved_ambar.get(name, 0))
 
         saved_warehouse = data.get("warehouse", {})
