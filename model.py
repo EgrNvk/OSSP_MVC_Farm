@@ -1,3 +1,6 @@
+import json
+import os
+
 class Plant:
     def __init__(self, name, grow_time, price, image_folder):
         self.name = name
@@ -18,6 +21,7 @@ class Field:
         self.fertilizer=None
 
 class FarmModel:
+    SAVE_FILE="farm_save.txt"
     def __init__(self):
         self.balance = 50
 
@@ -91,3 +95,28 @@ class FarmModel:
             self.balance += plant.price
             return plant.price
         return 0
+
+    def save_state(self):
+        data={"balance": self.balance, "ambar": self.ambar, "warehouse": self.warehouse}
+        try:
+            with open(self.SAVE_FILE, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
+
+    def load_state(self):
+        try:
+            with open(self.SAVE_FILE, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception:
+            return
+
+        self.balance = data["balance", self.balance]
+
+        saved_ambar = data.get("ambar", {})
+        for name in self.warehouse.keys():
+            self.ambar[name] = int(saved_ambar.get(name, 0))
+
+        saved_warehouse = data.get("warehouse", {})
+        for name in self.warehouse.keys():
+            self.warehouse[name] = int(saved_warehouse.get(name, 0))
