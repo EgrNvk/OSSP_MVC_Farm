@@ -18,7 +18,15 @@ class CarrotPlant(Plant):
 
 class CornPlant(Plant):
     def __init__(self):
-        super().__init__("Кукурудза", 8000, 20, "img_corn")
+        super().__init__("Кукурудза", 8000, 20, "IMG_corn")
+
+class WatermelonPlant(Plant):
+    def __init__(self):
+        super().__init__("Арбуз", 2000, 5, "IMG_watermelon")
+
+class PineapplePlant(Plant):
+    def __init__(self):
+        super().__init__("Ананас", 4000, 9, "IMG_pineapple")
 
 class Fertilizer:
     def __init__(self, name, price, multiplier):
@@ -37,10 +45,10 @@ class FarmModel:
     def __init__(self):
         self.balance = 50
 
-        self.plants=[WheatPlant(), CarrotPlant(), CornPlant()]
+        self.plants=[WheatPlant(), CarrotPlant(), CornPlant(), WatermelonPlant(), PineapplePlant()]
         self.fertilizers=[Fertilizer("Звичайне добриво (-20%)", 10, 0.8), Fertilizer("Супер добриво (-50%)", 20, 0.5)]
         self.fields=[Field(), Field(), Field(), Field()]
-        self.ambar={"Пшениця": 0, "Морква": 0, "Кукурудза": 0}
+        self.ambar={"Пшениця": 0, "Морква": 0, "Кукурудза": 0, "Арбуз": 0, "Ананас": 0}
         self.warehouse={"Звичайне добриво (-20%)": 0, "Супер добриво (-50%)": 0}
 
     def buy_fertilizer(self, name):
