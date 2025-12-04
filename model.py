@@ -8,6 +8,18 @@ class Plant:
         self.price = price
         self.image_folder = image_folder
 
+class WheatPlant(Plant):
+    def __init__(self):
+        super().__init__("Пшениця", 5000, 12, "IMG_wheat")
+
+class CarrotPlant(Plant):
+    def __init__(self):
+        super().__init__("Морква", 3000, 8, "IMG_carrot")
+
+class CornPlant(Plant):
+    def __init__(self):
+        super().__init__("Кукурудза", 8000, 20, "img_corn")
+
 class Fertilizer:
     def __init__(self, name, price, multiplier):
         self.name = name
@@ -25,11 +37,7 @@ class FarmModel:
     def __init__(self):
         self.balance = 50
 
-        self.plants=[
-            Plant("Пшениця", 5000, 12, "IMG_wheat"),
-            Plant("Морква", 3000, 8, "IMG_carrot"),
-            Plant("Кукурудза", 8000, 20, "img_corn")
-        ]
+        self.plants=[WheatPlant(), CarrotPlant(), CornPlant()]
         self.fertilizers=[Fertilizer("Звичайне добриво (-20%)", 10, 0.8), Fertilizer("Супер добриво (-50%)", 20, 0.5)]
         self.fields=[Field(), Field(), Field(), Field()]
         self.ambar={"Пшениця": 0, "Морква": 0, "Кукурудза": 0}
