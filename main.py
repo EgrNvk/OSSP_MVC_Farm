@@ -1,4 +1,4 @@
-from Model.model import FarmModel
+from Model.ClassFarmModel import FarmModel
 from View import view
 from Controller.controller import FarmController
 
