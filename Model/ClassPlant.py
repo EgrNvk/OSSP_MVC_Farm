@@ -1,3 +1,13 @@
+import json
+from pathlib import Path
+
+RESOURCES_FILE = Path(__file__).with_name("resources.json")
+
+with open(RESOURCES_FILE, "r", encoding="utf-8") as f:
+    RES=json.load(f)
+
+IMAGE_PATHS=RES.get("images", {})
+
 class Plant:
     def __init__(self, name, grow_time, price, image_folder):
         self.name = name
