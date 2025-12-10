@@ -1,5 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox
+import json
+from pathlib import Path
+
+RESOURCES_FILE = Path(__file__).parent.parent/("resources.json")
+
+with open(RESOURCES_FILE, "r", encoding="utf-8") as f:
+    RES=json.load(f)
+
+IMAGE_FOLDERS=RES.get("image_folders", {})
 
 root = None
 model = None
@@ -157,13 +166,22 @@ def update_field_bg(index, stage):
     field = model.fields[index]
 
     if field.plant is None:
-        folder = "IMG_carrot"
+        folder = IMAGE_FOLDERS.get("empty", "IMG_carrot")
     else:
-        folder = field.plant.image_folder
+        folder = IMAGE_FOLDERS.get(field.plant.name)
+
+        if not folder:
+            folder=getattr(field.plant, "image_folder", None)
+
+        if not folder:
+            folder="IMG_carrot"
+
+    path=f"{folder}/{stage}.png"
 
     try:
-        img = tk.PhotoImage(file=f"{folder}/{stage}.png")
-    except Exception:
+        img = tk.PhotoImage(file=path)
+    except Exception as e:
+        print(f"[WARN] Can't load image: {path} ({e})")
         return
 
     btn = field_buttons[index]
