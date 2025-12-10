@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-RESOURCES_FILE = Path(__file__).with_name("resources.json")
+RESOURCES_FILE = Path(__file__).parent.parent/("resources.json")
 
 with open(RESOURCES_FILE, "r", encoding="utf-8") as f:
     RES=json.load(f)
