@@ -1,5 +1,5 @@
-from Model.ClassPlant import Plant, IMAGE_PATHS
+from Model.ClassPlant import Plant
 
 class PineapplePlant(Plant):
     def __init__(self):
-        super().__init__("Ананас", 4000, 9, IMAGE_PATHS.get("Ананас"))
+        super().__init__("Ананас", 4000, 9)

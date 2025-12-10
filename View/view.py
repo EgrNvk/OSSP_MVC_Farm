@@ -3,12 +3,16 @@ from tkinter import messagebox
 import json
 from pathlib import Path
 
-RESOURCES_FILE = Path(__file__).parent.parent/("resources.json")
+from Services.Resource_Service import ResourceService
+res = ResourceService()
+current_images = [None, None, None, None]
 
-with open(RESOURCES_FILE, "r", encoding="utf-8") as f:
-    RES=json.load(f)
-
-IMAGE_FOLDERS=RES.get("image_folders", {})
+# RESOURCES_FILE = Path(__file__).parent.parent/("resources.json")
+#
+# with open(RESOURCES_FILE, "r", encoding="utf-8") as f:
+#     RES=json.load(f)
+#
+# IMAGE_FOLDERS=RES.get("image_folders", {})
 
 root = None
 model = None
@@ -31,6 +35,7 @@ def create_view(app_model, app_controller):
     global root, model, controller
     global balance_label, ambar_label, warehouse_label
     global field_buttons, field_labels, plant_var, fert_var, sell_var, sell_info_label
+    global current_images
 
     model = app_model
     controller = app_controller
@@ -164,29 +169,26 @@ def create_view(app_model, app_controller):
 
 def update_field_bg(index, stage):
     field = model.fields[index]
+    plant = field.plant
 
-    if field.plant is None:
-        folder = IMAGE_FOLDERS.get("empty", "IMG_carrot")
+    if plant is None:
+        crop_key = "Пшениця"
+        stage = 0
     else:
-        folder = IMAGE_FOLDERS.get(field.plant.name)
+        crop_key = plant.name
 
-        if not folder:
-            folder=getattr(field.plant, "image_folder", None)
-
-        if not folder:
-            folder="IMG_carrot"
-
-    path=f"{folder}/{stage}.png"
+    img_path = res.get_image_path(crop_key, stage)
 
     try:
-        img = tk.PhotoImage(file=path)
-    except Exception as e:
-        print(f"[WARN] Can't load image: {path} ({e})")
+        img = tk.PhotoImage(file=str(img_path))
+    except Exception:
         return
 
-    btn = field_buttons[index]
-    btn.image = img
-    btn.config(image=img)
+    current_images[index] = img
+    field_buttons[index].config(image=img)
+    field_buttons[index].image = img
+
+
 
 
 def update_balance():

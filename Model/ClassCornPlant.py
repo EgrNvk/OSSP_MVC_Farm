@@ -1,5 +1,5 @@
-from Model.ClassPlant import Plant, IMAGE_PATHS
+from Model.ClassPlant import Plant
 
 class CornPlant(Plant):
     def __init__(self):
-        super().__init__("Кукурудза", 8000, 20, IMAGE_PATHS.get("Кукурудза"))
+        super().__init__("Кукурудза", 8000, 20)
