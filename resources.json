@@ -1,3 +1,4 @@
 {
+  "save_file": "farm_save.txt",
   "image_folders": {"Морква": "IMG_carrot", "Кукурудза": "IMG_corn", "Ананас": "IMG_pineapple", "Арбуз": "IMG_watermelon", "Пшениця": "IMG_wheat"}
 }

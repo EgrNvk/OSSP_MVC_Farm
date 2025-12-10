@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 from Model.ClassCarrotPlant import CarrotPlant
 from Model.ClassCornPlant import CornPlant
@@ -8,12 +9,18 @@ from Model.ClassPineapplePlant import PineapplePlant
 from Model.ClassWatermelonPlant import WatermelonPlant
 from Model.ClassWheatPlant import WheatPlant
 
+RESOURCES_FILE = Path(__file__).parent.parent/("resources.json")
+
+with open(RESOURCES_FILE, "r", encoding="utf-8") as f:
+    RES=json.load(f)
+
+SAVE_FILE=RES.get("save_file", "farm_save.txt")
 
 class FarmModel:
-    SAVE_FILE= "../farm_save.txt"
+    # SAVE_FILE= "../farm_save.txt"
     def __init__(self):
         self.balance = 50
-
+        self.save_file = SAVE_FILE
         self.plants=[WheatPlant(), CarrotPlant(), CornPlant(), WatermelonPlant(), PineapplePlant()]
         self.fertilizers=[Fertilizer("Звичайне добриво (-20%)", 10, 0.8), Fertilizer("Супер добриво (-50%)", 20, 0.5)]
         self.fields=[Field(), Field(), Field(), Field()]
