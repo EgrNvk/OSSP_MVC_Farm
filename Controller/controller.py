@@ -16,6 +16,21 @@ class FarmController:
     def field_clicked(self, field_index):
         field = self.model.fields[field_index]
 
+        if not field.unlocked:
+            price = self.model.field_prices[field_index]
+
+            if self.model.balance < price:
+                view.show_warning(
+                    f"Недостатньо грошей, щоб відкрити поле {field_index + 1}. Потрібно {price}₴."
+                )
+                return
+
+            self.model.balance -= price
+            field.unlocked = True
+            self.model.save_state()
+            view.update_all()
+            return
+
         if field.state == "empty":
             plant_name = view.plant_var.get()
             fert_name = view.fert_var.get()
@@ -23,7 +38,6 @@ class FarmController:
                 fert_name = None
 
             ok = self.model.plant_on_field(field_index, plant_name, fert_name)
-
             if not ok:
                 view.show_warning("Поле зайняте або немає добрива.")
                 return

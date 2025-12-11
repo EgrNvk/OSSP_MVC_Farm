@@ -5,7 +5,7 @@ from pathlib import Path
 
 from Services.Resource_Service import ResourceService
 res = ResourceService()
-current_images = [None, None, None, None]
+current_images = [None, None, None, None, None, None, None, None]
 
 # RESOURCES_FILE = Path(__file__).parent.parent/("resources.json")
 #
@@ -42,7 +42,7 @@ def create_view(app_model, app_controller):
 
     root = tk.Tk()
     root.title("Ферма")
-    root.geometry("1000x705")
+    root.geometry("1000x1500")
 
     balance_label = tk.Label(root, font=("Arial", 16))
     balance_label.pack(pady=5)
@@ -70,67 +70,63 @@ def create_view(app_model, app_controller):
     field_buttons.clear()
     field_labels.clear()
 
-    btn_field1 = tk.Button(
-        frame_fields,
-        text="",
-        width=100,
-        height=200,
-        compound="top",
-        command=lambda: on_field_click(0)
-    )
-    btn_field1.grid(row=0, column=0, padx=20, pady=5)
-    field_buttons.append(btn_field1)
+    btn1 = tk.Button(frame_fields, width=100, height=200, compound="top", command=lambda: on_field_click(0))
+    btn1.grid(row=0, column=0, padx=20, pady=5)
+    field_buttons.append(btn1)
+    lbl1 = tk.Label(frame_fields, text="Поле 1")
+    lbl1.grid(row=1, column=0, padx=20, pady=5)
+    field_labels.append(lbl1)
 
-    lbl_field1 = tk.Label(frame_fields, text="Поле 1: пусто")
-    lbl_field1.grid(row=1, column=0, padx=20, pady=5)
-    field_labels.append(lbl_field1)
+    btn2 = tk.Button(frame_fields, width=100, height=200, compound="top", command=lambda: on_field_click(1))
+    btn2.grid(row=0, column=1, padx=20, pady=5)
+    field_buttons.append(btn2)
+    lbl2 = tk.Label(frame_fields, text="Поле 2")
+    lbl2.grid(row=1, column=1, padx=20, pady=5)
+    field_labels.append(lbl2)
 
-    btn_field2 = tk.Button(
-        frame_fields,
-        text="",
-        width=100,
-        height=200,
-        compound="top",
-        command=lambda: on_field_click(1)
-    )
-    btn_field2.grid(row=0, column=1, padx=20, pady=5)
-    field_buttons.append(btn_field2)
+    btn3 = tk.Button(frame_fields, width=100, height=200, compound="top", command=lambda: on_field_click(2))
+    btn3.grid(row=0, column=2, padx=20, pady=5)
+    field_buttons.append(btn3)
+    lbl3 = tk.Label(frame_fields, text="Поле 3")
+    lbl3.grid(row=1, column=2, padx=20, pady=5)
+    field_labels.append(lbl3)
 
-    lbl_field2 = tk.Label(frame_fields, text="Поле 2: пусто")
-    lbl_field2.grid(row=1, column=1, padx=20, pady=5)
-    field_labels.append(lbl_field2)
+    btn4 = tk.Button(frame_fields, width=100, height=200, compound="top", command=lambda: on_field_click(3))
+    btn4.grid(row=0, column=3, padx=20, pady=5)
+    field_buttons.append(btn4)
+    lbl4 = tk.Label(frame_fields, text="Поле 4")
+    lbl4.grid(row=1, column=3, padx=20, pady=5)
+    field_labels.append(lbl4)
 
-    btn_field3 = tk.Button(
-        frame_fields,
-        text="",
-        width=100,
-        height=200,
-        compound="top",
-        command=lambda: on_field_click(2)
-    )
-    btn_field3.grid(row=0, column=2, padx=20, pady=5)
-    field_buttons.append(btn_field3)
+    btn5 = tk.Button(frame_fields, width=100, height=200, compound="top", command=lambda: on_field_click(4))
+    btn5.grid(row=2, column=0, padx=20, pady=5)
+    field_buttons.append(btn5)
+    lbl5 = tk.Label(frame_fields, text="Поле 5")
+    lbl5.grid(row=3, column=0, padx=20, pady=5)
+    field_labels.append(lbl5)
 
-    lbl_field3 = tk.Label(frame_fields, text="Поле 3: пусто")
-    lbl_field3.grid(row=1, column=2, padx=20, pady=5)
-    field_labels.append(lbl_field3)
+    btn6 = tk.Button(frame_fields, width=100, height=200, compound="top", command=lambda: on_field_click(5))
+    btn6.grid(row=2, column=1, padx=20, pady=5)
+    field_buttons.append(btn6)
+    lbl6 = tk.Label(frame_fields, text="Поле 6")
+    lbl6.grid(row=3, column=1, padx=20, pady=5)
+    field_labels.append(lbl6)
 
-    btn_field4 = tk.Button(
-        frame_fields,
-        text="",
-        width=100,
-        height=200,
-        compound="top",
-        command=lambda: on_field_click(3)
-    )
-    btn_field4.grid(row=0, column=3, padx=20, pady=5)
-    field_buttons.append(btn_field4)
+    btn7 = tk.Button(frame_fields, width=100, height=200, compound="top", command=lambda: on_field_click(6))
+    btn7.grid(row=2, column=2, padx=20, pady=5)
+    field_buttons.append(btn7)
+    lbl7 = tk.Label(frame_fields, text="Поле 7")
+    lbl7.grid(row=3, column=2, padx=20, pady=5)
+    field_labels.append(lbl7)
 
-    lbl_field4 = tk.Label(frame_fields, text="Поле 4: пусто")
-    lbl_field4.grid(row=1, column=3, padx=20, pady=5)
-    field_labels.append(lbl_field4)
+    btn8 = tk.Button(frame_fields, width=100, height=200, compound="top", command=lambda: on_field_click(7))
+    btn8.grid(row=2, column=3, padx=20, pady=5)
+    field_buttons.append(btn8)
+    lbl8 = tk.Label(frame_fields, text="Поле 8")
+    lbl8.grid(row=3, column=3, padx=20, pady=5)
+    field_labels.append(lbl8)
 
-    for i in range(4):
+    for i in range(8):
         update_field_bg(i, 0)
 
     frame_shop = tk.Frame(root, bd=2, relief="groove", padx=10, pady=10)
@@ -169,8 +165,17 @@ def create_view(app_model, app_controller):
 
 def update_field_bg(index, stage):
     field = model.fields[index]
-    plant = field.plant
 
+    if not getattr(field, "unlocked", True):
+        field_buttons[index].config(
+            image="",
+            text="Заблоковано",
+            compound="center"
+        )
+        current_images[index] = None
+        return
+
+    plant = field.plant
     if plant is None:
         crop_key = "Пшениця"
         stage = 0
@@ -185,10 +190,8 @@ def update_field_bg(index, stage):
         return
 
     current_images[index] = img
-    field_buttons[index].config(image=img)
+    field_buttons[index].config(image=img, text="", compound="top")
     field_buttons[index].image = img
-
-
 
 
 def update_balance():
@@ -211,13 +214,18 @@ def update_all():
     update_warehouse()
 
     for i, field in enumerate(model.fields):
-        if field.state == "empty":
-            txt = f"Поле {i+1}: пусто"
+        if not getattr(field, "unlocked", True):
+            txt = f"Поле {i + 1}: заблоковано"
+        elif field.state == "empty":
+            txt = f"Поле {i + 1}: пусто"
         elif field.state == "growing":
-            txt = f"Поле {i+1}: росте"
+            txt = f"Поле {i + 1}: росте"
         else:
-            txt = f"Поле {i+1}:ГОТОВО"
+            txt = f"Поле {i + 1}: ГОТОВО"
+
         field_labels[i].config(text=txt)
+
+        update_field_bg(i, 0)
 
 
 def on_buy_fertilizer(name):
