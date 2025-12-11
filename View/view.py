@@ -225,7 +225,10 @@ def update_all():
 
         field_labels[i].config(text=txt)
 
-        update_field_bg(i, 0)
+        if field.state=="ready":
+            update_field_bg(i, 8)
+        else:
+            update_field_bg(i, 0)
 
 
 def on_buy_fertilizer(name):
