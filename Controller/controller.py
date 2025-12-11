@@ -1,5 +1,7 @@
 import threading
 import time
+
+from DTO.DTO import FieldBonusDTO
 from View import view
 
 
@@ -17,19 +19,58 @@ class FarmController:
         field = self.model.fields[field_index]
 
         if not field.unlocked:
-            price = self.model.field_prices[field_index]
+            base_price = self.model.field_prices[field_index]
 
-            if self.model.balance < price:
-                view.show_warning(
-                    f"Недостатньо грошей, щоб відкрити поле {field_index + 1}. Потрібно {price}₴."
-                )
+            super_fert = next(
+                (f for f in self.model.fertilizers if f.name == "Супер добриво (-50%)"),
+                None
+            )
+            super_price = super_fert.price if super_fert else 0
+
+            bonus_price = base_price + super_price * 4
+
+            choice = view.ask_field_purchase_mode(
+                field_index + 1,
+                base_price,
+                bonus_price
+            )
+
+            if choice is None:
                 return
 
-            self.model.balance -= price
-            field.unlocked = True
-            self.model.save_state()
-            view.update_all()
-            return
+            if choice == "bonus":
+                if self.model.balance < bonus_price:
+                    view.show_warning(
+                        f"Недостатньо грошей, щоб купити поле {field_index + 1} з бонусом. "
+                        f"Потрібно {bonus_price}₴."
+                    )
+                    return
+
+                self.model.balance -= bonus_price
+                field.unlocked = True
+                if super_fert:
+                    field.bonus = FieldBonusDTO(
+                        fertilizer_name=super_fert.name,
+                        uses_left=5
+                    )
+                self.model.save_state()
+                view.update_all()
+                return
+
+            if choice == "normal":
+                if self.model.balance < base_price:
+                    view.show_warning(
+                        f"Недостатньо грошей, щоб відкрити поле {field_index + 1}. "
+                        f"Потрібно {base_price}₴."
+                    )
+                    return
+
+                self.model.balance -= base_price
+                field.unlocked = True
+                field.bonus = None
+                self.model.save_state()
+                view.update_all()
+                return
 
         if field.state == "empty":
             plant_name = view.plant_var.get()

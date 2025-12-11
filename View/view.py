@@ -223,6 +223,10 @@ def update_all():
         else:
             txt = f"Поле {i + 1}: ГОТОВО"
 
+        bonus=getattr(field, "bonus", None)
+        if bonus and getattr(field, "unlocked", False) and bonus.uses_left>0:
+            txt+=f" (бонус x{bonus.uses_left})"
+
         field_labels[i].config(text=txt)
 
         if field.state=="ready":
@@ -249,3 +253,23 @@ def update_sell_info(text):
 
 def show_warning(msg):
     messagebox.showwarning("Помилка", msg)
+
+
+def ask_field_purchase_mode(field_number: int, base_price: int, bonus_price: int):
+    msg = (
+        f"Поле {field_number} заблоковано.\n\n"
+        f"Варіанти покупки:\n"
+        f"• Звичайне поле: {base_price}₴\n"
+        f"• Поле з бонусом (5 посівів Супер добрива -50%): {bonus_price}₴\n\n"
+        f"Натисніть 'Так', щоб купити з бонусом.\n"
+        f"Натисніть 'Ні', щоб купити без бонусу.\n"
+        f"Натисніть 'Cancel', щоб скасувати."
+    )
+    answer = messagebox.askyesnocancel("Покупка поля", msg)
+
+    if answer is True:
+        return "bonus"
+    elif answer is False:
+        return "normal"
+    else:
+        return None
