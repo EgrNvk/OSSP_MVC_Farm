@@ -27,9 +27,19 @@ class FarmModel:
         self.save_file = service.RESOURCES.get("save_file", "farm_save.txt")
         self.plants=[WheatPlant(), CarrotPlant(), CornPlant(), WatermelonPlant(), PineapplePlant()]
         self.fertilizers=[Fertilizer("Звичайне добриво (-20%)", 10, 0.8), Fertilizer("Супер добриво (-50%)", 20, 0.5)]
-        self.fields=[Field(), Field(), Field(), Field()]
+        self.max_fields=8
+        self.field_prices=[0, 0, 0, 0, 150, 175, 200, 250]
+
+        self.fields=[]
+        for i in range(self.max_fields):
+            field=Field()
+            field.unlocked=(i<4)
+            self.fields.append(field)
+
         self.ambar={"Пшениця": 0, "Морква": 0, "Кукурудза": 0, "Арбуз": 0, "Ананас": 0}
         self.warehouse={"Звичайне добриво (-20%)": 0, "Супер добриво (-50%)": 0}
+
+        self.load_state()
 
     def buy_fertilizer(self, name):
         fert=next((f for f in self.fertilizers if f.name==name), None)
@@ -97,7 +107,7 @@ class FarmModel:
         return 0
 
     def save_state(self):
-        data={"balance": self.balance, "ambar": self.ambar, "warehouse": self.warehouse}
+        data={"balance": self.balance, "ambar": self.ambar, "warehouse": self.warehouse, "fields": [{"unlocked": getattr(f, "unlocked", False)} for f in self.fields]}
         try:
             with open(self.save_file, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
@@ -120,3 +130,16 @@ class FarmModel:
         saved_warehouse = data.get("warehouse", {})
         for name in self.warehouse.keys():
             self.warehouse[name] = int(saved_warehouse.get(name, 0))
+
+        saved_fields = data.get("fields")
+        if saved_fields:
+            for i, fd in enumerate(saved_fields):
+                if i >= len(self.fields):
+                    break
+                field = self.fields[i]
+
+                default_unlocked=(i<4)
+                field.unlocked=fd.get("unlocked", default_unlocked)
+        else:
+            for i, field in enumerate(self.fields):
+                field.unlocked=(i<4)
