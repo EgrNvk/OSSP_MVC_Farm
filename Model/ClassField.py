@@ -1,3 +1,5 @@
+from DTO.DTO import FieldBonusDTO
+
 class Field:
     def __init__(self):
         self.state="empty"
@@ -5,3 +7,4 @@ class Field:
         self.fertilizer=None
 
         self.unlocked=False
+        self.bonus: FieldBonusDTO | None = None
