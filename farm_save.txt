@@ -10,5 +10,31 @@
   "warehouse": {
     "Звичайне добриво (-20%)": 5,
     "Супер добриво (-50%)": 5
-  }
+  },
+  "fields": [
+    {
+      "unlocked": true
+    },
+    {
+      "unlocked": true
+    },
+    {
+      "unlocked": true
+    },
+    {
+      "unlocked": true
+    },
+    {
+      "unlocked": false
+    },
+    {
+      "unlocked": false
+    },
+    {
+      "unlocked": false
+    },
+    {
+      "unlocked": false
+    }
+  ]
 }
