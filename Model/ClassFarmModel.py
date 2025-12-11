@@ -52,20 +52,49 @@ class FarmModel:
 
     def plant_on_field(self, index, plant_name, fert_name=None):
         field = self.fields[index]
+
         if field.state != "empty":
             return False
 
-        plant=next((p for p in self.plants if p.name==plant_name), None)
-        fert=next((f for f in self.fertilizers if f.name==fert_name), None) if fert_name else None
+        plant = next((p for p in self.plants if p.name == plant_name), None)
+        if plant is None:
+            return False
 
-        if fert:
-            if self.warehouse[fert.name] <= 0:
-                return False
-            self.warehouse[fert.name] -= 1
+        bonus = getattr(field, "bonus", None)
+        using_bonus = bonus is not None and bonus.uses_left > 0
 
-        field.plant=plant
-        field.fertilizer=fert
-        field.state="growing"
+        fert_obj = None
+
+        if using_bonus:
+            fert_obj = next(
+                (f for f in self.fertilizers if f.name == bonus.fertilizer_name),
+                None
+            )
+
+            if fert_obj is not None:
+                bonus.uses_left -= 1
+                if bonus.uses_left <= 0:
+                    field.bonus = None
+            else:
+                field.bonus = None
+                using_bonus = False
+
+        if not using_bonus:
+            fert_obj = None
+            if fert_name:
+                fert_obj = next(
+                    (f for f in self.fertilizers if f.name == fert_name),
+                    None
+                )
+                if fert_obj:
+                    if self.warehouse.get(fert_obj.name, 0) <= 0:
+                        return False
+                    self.warehouse[fert_obj.name] -= 1
+
+        field.plant = plant
+        field.fertilizer = fert_obj
+        field.state = "growing"
+
         self.save_state()
         return True
 
