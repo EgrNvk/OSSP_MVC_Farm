@@ -1,7 +1,7 @@
 from Model.ClassFarmModel import FarmModel
 from View import view
 from Controller.controller import FarmController
-from logger_config import logger
+from Services.Logger_Service import logger
 
 def main():
     logger.info("Запуск OSSP_MVC_Farm")
