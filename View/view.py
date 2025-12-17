@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 import json
 from pathlib import Path
+from Services.Logger_Service import logger
 
 from Services.Resource_Service import ResourceService
 res = ResourceService()
@@ -32,6 +33,7 @@ sell_info_label = None
 
 
 def create_view(app_model, app_controller):
+    logger.info("View Start")
     global root, model, controller
     global balance_label, ambar_label, warehouse_label
     global field_buttons, field_labels, plant_var, fert_var, sell_var, sell_info_label
@@ -187,6 +189,7 @@ def update_field_bg(index, stage):
     try:
         img = tk.PhotoImage(file=str(img_path))
     except Exception:
+        logger.warning(f"View не вдалося завантажити зображення (field={index+1}, stage={stage}, path={img_path})")
         return
 
     current_images[index] = img
@@ -252,6 +255,7 @@ def update_sell_info(text):
 
 
 def show_warning(msg):
+    logger.warning(f"View: show_warning={msg}")
     messagebox.showwarning("Помилка", msg)
 
 
