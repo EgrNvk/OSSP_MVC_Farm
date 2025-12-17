@@ -4,6 +4,7 @@ from Controller.controller import FarmController
 from Services.Logger_Service import logger
 
 def main():
+    logger.info("")
     logger.info("Запуск OSSP_MVC_Farm")
     try:
         logger.debug("Ініціалізація моделі")
