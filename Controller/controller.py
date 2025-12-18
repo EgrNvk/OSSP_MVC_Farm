@@ -11,6 +11,7 @@ class FarmController:
         self.model = model
         self.missions_controller = ControllerMissions(model)
         logger.info("FarmController створено")
+        self.missions_controller.sync_all()
 
     def buy_fertilizer(self, fert_name):
         logger.debug(f"Спроба купити добрево: {fert_name}")

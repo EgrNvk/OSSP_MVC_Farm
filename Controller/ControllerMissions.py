@@ -1,6 +1,14 @@
 class ControllerMissions:
     def __init__(self, model):
-        self.model = model  # FarmModel
+        self.model = model
+
+    def sync_all(self):
+        m=self.model.missions
+        m.money=int(self.model.balance)
+        m.unlocked_fields=sum(1 for f in self.model.fields if getattr(f, "unlocked", False))
+        m.total_fields=len(self.model.fields)
+        m.wheat_count=int(self.model.ambar.get("Пшениця", 0))
+        m.check_all()
 
     def after_field_unlocked(self):
         m = self.model.missions
