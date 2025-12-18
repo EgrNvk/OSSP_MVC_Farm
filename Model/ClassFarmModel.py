@@ -32,12 +32,13 @@ class FarmModel:
         self.field_prices=[0, 0, 0, 0, 150, 175, 200, 250]
 
         self.fields=[]
-        self.mission=MissionModel()
-        self.mission.total_fields=len(self.fields)
         for i in range(self.max_fields):
             field=Field()
             field.unlocked=(i<4)
             self.fields.append(field)
+
+        self.missions = MissionModel()
+        self.missions.total_fields = len(self.fields)
 
         self.ambar={"Пшениця": 0, "Морква": 0, "Кукурудза": 0, "Арбуз": 0, "Ананас": 0}
         self.warehouse={"Звичайне добриво (-20%)": 0, "Супер добриво (-50%)": 0}
@@ -178,5 +179,5 @@ class FarmModel:
                 field.unlocked=(i<4)
 
         self.missions.total_fields = len(self.fields)
-        self.mission.load_state(data)
-        self.mission.check_all()
+        self.missions.load_state(data)
+        self.missions.check_all()
