@@ -23,8 +23,8 @@ balance_label = None
 ambar_label = None
 warehouse_label = None
 
-mission_frame = None
-mission_labels = []
+missions_frame = None
+missions_labels = []
 
 field_buttons = []
 field_labels = []
@@ -55,18 +55,18 @@ def create_view(app_model, app_controller):
     ambar_label = tk.Label(root, font=("Arial", 12))
     ambar_label.pack(pady=3)
 
-    global missions_frame, mission_labels
+    global missions_frame, missions_labels
 
     missions_frame = tk.Frame(root, bd=2, relief="groove", padx=10, pady=10)
     missions_frame.pack(pady=6, fill="x")
 
     tk.Label(missions_frame, text="Місії", font=("Arial", 12, "bold")).pack(anchor="w")
 
-    mission_labels.clear()
+    missions_labels.clear()
     for _ in range(5):
         lbl = tk.Label(missions_frame, font=("Arial", 11), anchor="w", justify="left")
         lbl.pack(anchor="w")
-        mission_labels.append(lbl)
+        missions_labels.append(lbl)
 
     warehouse_label = tk.Label(root, font=("Arial", 12))
     warehouse_label.pack(pady=3)
@@ -296,7 +296,7 @@ def ask_field_purchase_mode(field_number: int, base_price: int, bonus_price: int
         return None
 
 def update_missions():
-    if not mission_labels or not hasattr(model, "missions"):
+    if not missions_labels or not hasattr(model, "missions"):
         return
 
     m = model.missions
@@ -306,27 +306,27 @@ def update_missions():
 
     total = max(int(getattr(m, "total_fields", 0)), 0)
     opened = max(int(getattr(m, "unlocked_fields", 0)), 0)
-    mission_labels[0].config(
+    missions_labels[0].config(
         text=f"{mark(m.unlock_all_fields_done)} 1) Відкрити всі поля: {opened}/{total}"
     )
 
     wheat = max(int(getattr(m, "wheat_count", 0)), 0)
-    mission_labels[1].config(
+    missions_labels[1].config(
         text=f"{mark(m.wheat_stock_done)} 2) Стратегічний запас (пшениця): {wheat}/10"
     )
 
     money = max(int(getattr(m, "money", 0)), 0)
-    mission_labels[2].config(
+    missions_labels[2].config(
         text=f"{mark(m.save_1000_done)} 3) Накопичити 1000 грошей: {money}/1000"
     )
 
     organic = max(int(getattr(m, "organic_plantings", 0)), 0)
-    mission_labels[3].config(
+    missions_labels[3].config(
         text=f"{mark(m.organic_done)} 4) 10 посівів без добрив: {organic}/10"
     )
 
     longest = max(int(getattr(m, "longest_session_time", 0)), 0)
     current = max(int(getattr(m, "current_session_time", 0)), 0)
-    mission_labels[4].config(
+    missions_labels[4].config(
         text=f"{mark(m.longest_session_done)} 5) Найдовша сесія: рекорд {longest} c (зараз {current} c)"
     )
