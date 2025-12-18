@@ -91,7 +91,6 @@ class FarmController:
                 return
 
         if field.state == "empty":
-
             plant_name = view.plant_var.get()
             fert_name = view.fert_var.get()
             if fert_name == "Без добрива":
@@ -104,8 +103,7 @@ class FarmController:
                 view.show_warning("Поле зайняте або немає добрива.")
                 return
 
-            self.model.missions.organic_plantings += 1
-            self.model.missions.check_all()
+            self.missions_controller.after_plant(fertilizer_used=(fert_name is not None))
 
             view.update_field_bg(field_index, 0)
             view.update_all()
@@ -117,8 +115,7 @@ class FarmController:
         elif field.state == "ready":
             logger.info(f"Збір уражаю з поля {field_index+1}")
             ok = self.model.harvest(field_index)
-            self.model.missions.wheat_count=int(self.model.ambar.get("Пшениця", 0))
-            self.model.missions.check_all()
+            self.missions_controller.after_harvest()
             if ok:
                 view.update_field_bg(field_index, 0)
             else:
@@ -155,8 +152,7 @@ class FarmController:
     def sell_crop(self, plant_name):
         logger.debug(f"Спроба продажу: {plant_name}")
         gained = self.model.sell(plant_name)
-        self.model.missions.money=int(self.model.balance)
-        self.model.missions.check_all()
+        self.missions_controller.after_balance_change()
 
         if gained == 0:
             logger.warning(f"Продаж не вдався: {plant_name}")
