@@ -4,10 +4,12 @@ import time
 from DTO.DTO import FieldBonusDTO
 from View import view
 from Services.Logger_Service import logger
+from Controller.ControllerMissions import ControllerMissions
 
 class FarmController:
     def __init__(self, model):
         self.model = model
+        self.missions_controller = ControllerMissions(model)
         logger.info("FarmController створено")
 
     def buy_fertilizer(self, fert_name):
@@ -58,6 +60,8 @@ class FarmController:
                 logger.info(f"Поле {field_index+1} куплено з бонусом")
                 self.model.balance -= bonus_price
                 field.unlocked = True
+                self.missions_controller.after_field_unlocked()
+                self.missions_controller.after_balance_change()
                 if super_fert:
                     field.bonus = FieldBonusDTO(
                         fertilizer_name=super_fert.name,
@@ -80,6 +84,8 @@ class FarmController:
                 self.model.balance -= base_price
                 field.unlocked = True
                 field.bonus = None
+                self.missions_controller.after_field_unlocked()
+                self.missions_controller.after_balance_change()
                 self.model.save_state()
                 view.update_all()
                 return
@@ -96,6 +102,8 @@ class FarmController:
             if not ok:
                 logger.warning(f"Не вдалося посадити рослину {plant_name} на полі {field_index+1}")
                 view.show_warning("Поле зайняте або немає добрива.")
+                self.model.missions.organic_plantings+=1
+                self.model.missions.check_all()
                 return
 
             view.update_field_bg(field_index, 0)
@@ -108,6 +116,8 @@ class FarmController:
         elif field.state == "ready":
             logger.info(f"Збір уражаю з поля {field_index+1}")
             ok = self.model.harvest(field_index)
+            self.model.missions.vid_count=int(self.model.ambar.get("Пшениця", 0))
+            self.model.missions.check_all()
             if ok:
                 view.update_field_bg(field_index, 0)
             else:
@@ -144,6 +154,8 @@ class FarmController:
     def sell_crop(self, plant_name):
         logger.debug(f"Спроба продажу: {plant_name}")
         gained = self.model.sell(plant_name)
+        self.model.mission.money=int(self.model.balance)
+        self.model.missions.check_all()
 
         if gained == 0:
             logger.warning(f"Продаж не вдався: {plant_name}")
