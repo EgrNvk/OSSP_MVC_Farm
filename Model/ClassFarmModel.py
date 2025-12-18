@@ -8,6 +8,7 @@ from Model.ClassField import Field
 from Model.ClassPineapplePlant import PineapplePlant
 from Model.ClassWatermelonPlant import WatermelonPlant
 from Model.ClassWheatPlant import WheatPlant
+from Model.ClassMissionModel import MissionModel
 
 # RESOURCES_FILE = Path(__file__).parent.parent/("resources.json")
 #
@@ -31,6 +32,8 @@ class FarmModel:
         self.field_prices=[0, 0, 0, 0, 150, 175, 200, 250]
 
         self.fields=[]
+        self.mission=MissionModel()
+        self.mission.total_fields=len(self.fields)
         for i in range(self.max_fields):
             field=Field()
             field.unlocked=(i<4)
@@ -138,6 +141,7 @@ class FarmModel:
     def save_state(self):
         data={"balance": self.balance, "ambar": self.ambar, "warehouse": self.warehouse, "fields": [{"unlocked": getattr(f, "unlocked", False)} for f in self.fields]}
         try:
+            self.missions.save_state(data)
             with open(self.save_file, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
         except Exception:
@@ -172,3 +176,7 @@ class FarmModel:
         else:
             for i, field in enumerate(self.fields):
                 field.unlocked=(i<4)
+
+        self.missions.total_fields = len(self.fields)
+        self.mission.load_state(data)
+        self.mission.check_all()
