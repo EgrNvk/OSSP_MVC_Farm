@@ -58,7 +58,7 @@ def create_view(app_model, app_controller):
     left_frame = tk.Frame(main_frame)
     left_frame.pack(side="left", fill="both", expand=True)
 
-    right_frame = tk.Frame(main_frame, width=350)
+    right_frame = tk.Frame(main_frame, width=500)
     right_frame.pack(side="right", fill="y")
     right_frame.pack_propagate(False)
 
@@ -78,7 +78,7 @@ def create_view(app_model, app_controller):
     tk.Label(missions_frame, text="Місії", font=("Arial", 12, "bold")).pack(anchor="w")
 
     missions_labels.clear()
-    for _ in range(5):
+    for _ in range(12):
         lbl = tk.Label(missions_frame, font=("Arial", 11), anchor="w", justify="left")
         lbl.pack(anchor="w")
         missions_labels.append(lbl)
@@ -377,3 +377,51 @@ def update_missions():
         text=f"{symbol} Найдовша сесія: рекорд {longest} хв (зараз {current} хв)",
         fg=color
     )
+
+    # місії від Родіона
+    missions_labels[5].config(
+        text="Місії від Родіона:",
+        fg="black"
+    )
+
+    harvest = max(int(getattr(m, "total_harvest", 0)), 0)
+
+    symbol, color = mark(m.first_harvest_done)
+    missions_labels[6].config(
+        text=f"{symbol} 'Перший урожай' Зберіть першу рослину: {harvest}/1",
+        fg=color
+    )
+
+    symbol, color = mark(m.harvest_25_done)
+    missions_labels[7].config(
+        text=f"{symbol} 'Жатва' Зберіть 25 рослин: {harvest}/25",
+        fg=color
+    )
+
+    symbol, color = mark(m.harvest_100_done)
+    missions_labels[8].config(
+        text=f"{symbol} 'Комбайн' Зберіть 100 рослин: {harvest}/100",
+        fg=color
+    )
+
+    money = max(int(getattr(m, "money", 0)), 0)
+
+    symbol, color = mark(m.trader_50_done)
+    missions_labels[9].config(
+        text=f"{symbol} 'Дрібний торговець' Заробіть 50₴ на продажу: {money}/50",
+        fg=color
+    )
+
+    symbol, color = mark(m.trader_200_done)
+    missions_labels[10].config(
+        text=f"{symbol} 'Купець' Заробіть 200₴ на продажу: {money}/200",
+        fg=color
+    )
+
+    symbol, color = mark(m.balance_500_done)
+    missions_labels[11].config(
+        text=f"{symbol} 'Золоті руки' Заробіть 500₴ на продажу: {money}/500",
+        fg=color
+    )
+
+

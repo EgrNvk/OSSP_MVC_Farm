@@ -17,6 +17,16 @@ class MissionModel:
         self.longest_session_time = 0
         self.current_session_time = 0
 
+        # місії від Родіона
+        self.total_harvest = 0
+        self.first_harvest_done = False
+        self.harvest_25_done = False
+        self.harvest_100_done = False
+
+        self.trader_50_done = False
+        self.trader_200_done = False
+        self.balance_500_done = False
+
     def check_all(self):
         if not self.unlock_all_fields_done:
             if self.total_fields > 0 and self.unlocked_fields >= self.total_fields:
@@ -33,6 +43,15 @@ class MissionModel:
         if self.current_session_time > self.longest_session_time:
             self.longest_session_time = self.current_session_time
             self.longest_session_done = True
+
+        # місії від Родіона
+        self.first_harvest_done = (self.total_harvest >= 1)
+        self.harvest_25_done = (self.total_harvest >= 25)
+        self.harvest_100_done = (self.total_harvest >= 100)
+
+        self.trader_50_done = (self.money >= 50)
+        self.trader_200_done = (self.money >= 200)
+        self.balance_500_done = (self.money >= 500)
 
     def save_state(self, data: dict) -> None:
         data["missions"] = {

@@ -11,6 +11,7 @@ class MissionController:
         if m.current_session_time > m.longest_session_time:
             m.longest_session_time = m.current_session_time
             m.longest_session_done = True
+        m.total_harvest = sum(self.model.ambar.values())
         m.check_all()
 
     def after_field_unlocked(self):
