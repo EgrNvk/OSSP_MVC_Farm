@@ -1,5 +1,5 @@
 from Model.FarmModel import FarmModel
-from View import view
+from View import FarmView
 from Controller.FarmController import FarmController
 from Services.Logger_Service import logger
 
@@ -14,7 +14,7 @@ def main():
         logger.debug("Ініціалізація контролеру")
         controller = FarmController(model)
         logger.debug("Створення GUI")
-        root = view.create_view(model, controller)
+        root = FarmView.create_view(model, controller)
         logger.info("Запуск mainloop()")
         root.mainloop()
         logger.info("Програма завершила роботу без помилок")
