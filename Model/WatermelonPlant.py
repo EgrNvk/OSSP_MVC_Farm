@@ -1,4 +1,4 @@
-from Model.ClassPlant import Plant
+from Model.Plant import Plant
 
 class WatermelonPlant(Plant):
     def __init__(self):

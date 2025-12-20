@@ -1,6 +1,6 @@
-from Model.ClassFarmModel import FarmModel
+from Model.FarmModel import FarmModel
 from View import view
-from Controller.controller import FarmController
+from Controller.FarmController import FarmController
 from Services.Logger_Service import logger
 
 def main():

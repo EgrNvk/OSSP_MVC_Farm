@@ -1,14 +1,14 @@
 import json
 from pathlib import Path
 
-from Model.ClassCarrotPlant import CarrotPlant
-from Model.ClassCornPlant import CornPlant
-from Model.ClassFertilizer import Fertilizer
-from Model.ClassField import Field
-from Model.ClassPineapplePlant import PineapplePlant
-from Model.ClassWatermelonPlant import WatermelonPlant
-from Model.ClassWheatPlant import WheatPlant
-from Model.ClassMissionModel import MissionModel
+from Model.CarrotPlant import CarrotPlant
+from Model.CornPlant import CornPlant
+from Model.Fertilizer import Fertilizer
+from Model.Field import Field
+from Model.PineapplePlant import PineapplePlant
+from Model.WatermelonPlant import WatermelonPlant
+from Model.WheatPlant import WheatPlant
+from Model.MissionModel import MissionModel
 
 # RESOURCES_FILE = Path(__file__).parent.parent/("resources.json")
 #

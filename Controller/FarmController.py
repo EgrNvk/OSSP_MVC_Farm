@@ -4,12 +4,12 @@ import time
 from DTO.DTO import FieldBonusDTO
 from View import view
 from Services.Logger_Service import logger
-from Controller.ControllerMissions import ControllerMissions
+from Controller.MissionsController import MissionController
 
 class FarmController:
     def __init__(self, model):
         self.model = model
-        self.missions_controller = ControllerMissions(model)
+        self.missions_controller = MissionController(model)
         logger.info("FarmController створено")
         self.missions_controller.sync_all()
 

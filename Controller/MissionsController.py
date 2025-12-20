@@ -1,4 +1,4 @@
-class ControllerMissions:
+class MissionController:
     def __init__(self, model):
         self.model = model
 
