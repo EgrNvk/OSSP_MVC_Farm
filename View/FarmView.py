@@ -330,32 +330,42 @@ def update_missions():
 
     m = model.missions
 
-    def mark(done: bool) -> str:
-        return "[✔]" if done else "[ ]"
+    def mark(done: bool):
+        return ("●", "green") if done else ("●", "red")
 
     total = max(int(getattr(m, "total_fields", 0)), 0)
     opened = max(int(getattr(m, "unlocked_fields", 0)), 0)
+    symbol, color = mark(getattr(m, "unlock_all_fields_done", False))
     missions_labels[0].config(
-        text=f"{mark(m.unlock_all_fields_done)} 1) Відкрити всі поля: {opened}/{total}"
+        text=f"{symbol} Відкрити всі поля: {opened}/{total}",
+        fg=color
     )
 
     wheat = max(int(getattr(m, "wheat_count", 0)), 0)
+    symbol, color = mark(getattr(m, "wheat_stock_done", False))
     missions_labels[1].config(
-        text=f"{mark(m.wheat_stock_done)} 2) Стратегічний запас (пшениця): {wheat}/10"
+        text=f"{symbol} Стратегічний запас (пшениця): {wheat}/10",
+        fg=color
     )
 
     money = max(int(getattr(m, "money", 0)), 0)
+    symbol, color = mark(getattr(m, "save_1000_done", False))
     missions_labels[2].config(
-        text=f"{mark(m.save_1000_done)} 3) Накопичити 1000 грошей: {money}/1000"
+        text=f"{symbol} Накопичити 1000 грошей: {money}/1000",
+        fg=color
     )
 
     organic = max(int(getattr(m, "organic_plantings", 0)), 0)
+    symbol, color = mark(getattr(m, "organic_done", False))
     missions_labels[3].config(
-        text=f"{mark(m.organic_done)} 4) 10 посівів без добрив: {organic}/10"
+        text=f"{symbol} 10 посівів без добрив: {organic}/10",
+        fg=color
     )
 
     longest = max(int(getattr(m, "longest_session_time", 0)), 0)
     current = max(int(getattr(m, "current_session_time", 0)), 0)
+    symbol, color = mark(getattr(m, "longest_session_done", False))
     missions_labels[4].config(
-        text=f"{mark(m.longest_session_done)} 5) Найдовша сесія: рекорд {longest} c (зараз {current} c)"
+        text=f"{symbol} Найдовша сесія: рекорд {longest} c (зараз {current} c)",
+        fg=color
     )
