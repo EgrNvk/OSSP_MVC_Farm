@@ -1,5 +1,5 @@
 {
-  "balance": 562,
+  "balance": 598,
   "ambar": {
     "Пшениця": 9,
     "Морква": 10,
@@ -44,9 +44,9 @@
     "wheat_stock_done": true,
     "wheat_count": 10,
     "save_1000_done": false,
-    "money": 550,
+    "money": 586,
     "organic_done": true,
-    "organic_plantings": 24,
+    "organic_plantings": 27,
     "longest_session_done": false,
     "longest_session_time": 0,
     "current_session_time": 0

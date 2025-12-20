@@ -45,20 +45,35 @@ def create_view(app_model, app_controller):
     model = app_model
     controller = app_controller
 
+    # root = tk.Tk()
+    # root.title("Ферма")
+    # root.geometry("1000x1150")
     root = tk.Tk()
     root.title("Ферма")
-    root.geometry("1000x1150")
+    root.geometry("1200x900")
 
-    balance_label = tk.Label(root, font=("Arial", 16))
-    balance_label.pack(pady=5)
+    main_frame = tk.Frame(root)
+    main_frame.pack(fill="both", expand=True)
 
-    ambar_label = tk.Label(root, font=("Arial", 12))
-    ambar_label.pack(pady=3)
+    left_frame = tk.Frame(main_frame)
+    left_frame.pack(side="left", fill="both", expand=True)
+
+    right_frame = tk.Frame(main_frame, width=350)
+    right_frame.pack(side="right", fill="y")
+    right_frame.pack_propagate(False)
+
+    PAD = 15
+
+    balance_label = tk.Label(left_frame, font=("Arial", 16))
+    balance_label.pack(fill="x",pady=5)
+
+    ambar_label = tk.Label(left_frame, font=("Arial", 12))
+    ambar_label.pack(fill="x",pady=3)
 
     global missions_frame, missions_labels
 
-    missions_frame = tk.Frame(root, bd=2, relief="groove", padx=10, pady=10)
-    missions_frame.pack(pady=6, fill="x")
+    missions_frame = tk.Frame(right_frame, bd=2, relief="groove", padx=10, pady=10)
+    missions_frame.pack(fill="both", expand=True, padx=PAD, pady=10)
 
     tk.Label(missions_frame, text="Місії", font=("Arial", 12, "bold")).pack(anchor="w")
 
@@ -68,22 +83,30 @@ def create_view(app_model, app_controller):
         lbl.pack(anchor="w")
         missions_labels.append(lbl)
 
-    warehouse_label = tk.Label(root, font=("Arial", 12))
-    warehouse_label.pack(pady=3)
+    warehouse_label = tk.Label(left_frame, font=("Arial", 12))
+    warehouse_label.pack(fill="x", pady=10)
 
-    frame_select = tk.Frame(root, bd=2, relief="groove", padx=10, pady=10)
-    frame_select.pack(pady=10)
+    frame_select = tk.Frame(left_frame, bd=2, relief="groove", padx=10, pady=10)
+    frame_select.pack(fill="x", padx=PAD, pady=10)
+    select_center = tk.Frame(frame_select)
+    select_center.pack(expand=True)
 
-    tk.Label(frame_select, text="Рослина:").grid(row=0, column=0, padx=5)
+    tk.Label(select_center,text="Рослина:").grid(row=0, column=0, padx=5, pady=3)
     plant_var = tk.StringVar(value=model.plants[0].name)
-    tk.OptionMenu(frame_select, plant_var, *[p.name for p in model.plants]).grid(row=0, column=1)
+    tk.OptionMenu(select_center,plant_var,*[p.name for p in model.plants]).grid(row=0, column=1, padx=5, pady=3)
 
-    tk.Label(frame_select, text="Добриво:").grid(row=1, column=0, padx=5)
+    tk.Label(select_center,text="Добриво:").grid(row=1, column=0, padx=5, pady=3)
     fert_var = tk.StringVar(value="Без добрива")
-    tk.OptionMenu(frame_select, fert_var, "Без добрива", *[f.name for f in model.fertilizers]).grid(row=1, column=1)
+    tk.OptionMenu(select_center,fert_var,"Без добрива",*[f.name for f in model.fertilizers]).grid(row=1, column=1, padx=5, pady=3)
 
-    frame_fields = tk.Frame(root, bd=2, relief="groove", padx=10, pady=10)
-    frame_fields.pack(pady=10)
+    frame_fields = tk.Frame(left_frame, bd=2, relief="groove", padx=10, pady=10)
+    frame_fields.pack(fill="x", padx=PAD, pady=10)
+
+    for col in range(4):
+        frame_fields.grid_columnconfigure(col, weight=1)
+
+    for row in range(4):
+        frame_fields.grid_rowconfigure(row, weight=1)
 
     field_buttons.clear()
     field_labels.clear()
@@ -147,26 +170,32 @@ def create_view(app_model, app_controller):
     for i in range(8):
         update_field_bg(i, 0)
 
-    frame_shop = tk.Frame(root, bd=2, relief="groove", padx=10, pady=10)
-    frame_shop.pack()
+    shop_sell_frame = tk.Frame(left_frame)
+    shop_sell_frame.pack(fill="x", padx=PAD, pady=10)
 
-    tk.Label(frame_shop, text="Магазин добрив").pack(anchor="w")
+    frame_shop = tk.Frame(shop_sell_frame, bd=2, relief="groove", padx=10, pady=10)
+    frame_shop.pack(side="left", fill="both", expand=True, padx=5)
+
+    tk.Label(frame_shop, text="Магазин добрив").pack()
+    shop_center = tk.Frame(frame_shop)
+    shop_center.pack(expand=True)
 
     for fert in model.fertilizers:
         tk.Button(
             frame_shop,
             text=f"Купити {fert.name} ({fert.price}₴)",
             command=lambda name=fert.name: on_buy_fertilizer(name)
-        ).pack(anchor="w", pady=2)
+        ).pack(pady=2)
 
-    frame_sell = tk.Frame(root, bd=2, relief="groove", padx=10, pady=10)
-    frame_sell.pack()
+    frame_sell = tk.Frame(shop_sell_frame, bd=2, relief="groove", padx=10, pady=10)
+    frame_sell.pack(side="left", fill="both", expand=True, padx=5)
 
     tk.Label(frame_sell, text="Продаж").grid(row=0, column=0, columnspan=2)
 
     sell_var = tk.StringVar(value=model.plants[0].name)
     tk.OptionMenu(frame_sell, sell_var, *[p.name for p in model.plants]).grid(row=1, column=0)
-
+    frame_sell.grid_columnconfigure(0, weight=1)
+    frame_sell.grid_columnconfigure(1, weight=1)
     tk.Button(
         frame_sell,
         text="Продати 1 шт",
