@@ -207,6 +207,14 @@ def create_view(app_model, app_controller):
 
     update_all()
 
+    TICK_MS = 60000
+
+    def start_session_timer():
+        controller.missions_controller.after_tick()
+        root.after(TICK_MS, start_session_timer)
+
+    start_session_timer()
+
     return root
 
 
@@ -366,6 +374,6 @@ def update_missions():
     current = max(int(getattr(m, "current_session_time", 0)), 0)
     symbol, color = mark(getattr(m, "longest_session_done", False))
     missions_labels[4].config(
-        text=f"{symbol} Найдовша сесія: рекорд {longest} c (зараз {current} c)",
+        text=f"{symbol} Найдовша сесія: рекорд {longest} хв (зараз {current} хв)",
         fg=color
     )

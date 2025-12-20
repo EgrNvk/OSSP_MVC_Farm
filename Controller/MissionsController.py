@@ -8,6 +8,9 @@ class MissionController:
         m.unlocked_fields=sum(1 for f in self.model.fields if getattr(f, "unlocked", False))
         m.total_fields=len(self.model.fields)
         m.wheat_count=int(self.model.ambar.get("Пшениця", 0))
+        if m.current_session_time > m.longest_session_time:
+            m.longest_session_time = m.current_session_time
+            m.longest_session_done = True
         m.check_all()
 
     def after_field_unlocked(self):
@@ -35,3 +38,4 @@ class MissionController:
 
     def after_tick(self):
         self.model.missions.current_session_time += 1
+        self.sync_all()
