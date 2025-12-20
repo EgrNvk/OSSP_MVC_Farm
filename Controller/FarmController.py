@@ -154,6 +154,7 @@ class FarmController:
         logger.debug(f"Спроба продажу: {plant_name}")
         gained = self.model.sell(plant_name)
         self.missions_controller.after_balance_change()
+        self.missions_controller.after_harvest()
 
         if gained == 0:
             logger.warning(f"Продаж не вдався: {plant_name}")

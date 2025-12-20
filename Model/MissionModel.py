@@ -22,13 +22,9 @@ class MissionModel:
             if self.total_fields > 0 and self.unlocked_fields >= self.total_fields:
                 self.unlock_all_fields_done = True
 
-        if not self.wheat_stock_done:
-            if self.wheat_count >= 10:
-                self.wheat_stock_done = True
+        self.wheat_stock_done = (self.wheat_count >= 10)
 
-        if not self.save_1000_done:
-            if self.money >= 1000:
-                self.save_1000_done = True
+        self.save_1000_done = (self.money >= 1000)
 
         if not self.organic_done:
             if self.organic_plantings >= 10:
