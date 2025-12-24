@@ -1,5 +1,5 @@
 {
-  "balance": 60,
+  "balance": 72,
   "ambar": {
     "Пшениця": 9,
     "Морква": 10,
@@ -42,13 +42,13 @@
     "unlocked_fields": 6,
     "total_fields": 8,
     "wheat_stock_done": false,
-    "wheat_count": 9,
+    "wheat_count": 8,
     "save_1000_done": false,
-    "money": 60,
+    "money": 72,
     "organic_done": true,
-    "organic_plantings": 34,
+    "organic_plantings": 35,
     "longest_session_done": true,
-    "longest_session_time": 5,
-    "current_session_time": 5
+    "longest_session_time": 12,
+    "current_session_time": 12
   }
 }

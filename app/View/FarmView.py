@@ -1,10 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
-import json
-from pathlib import Path
-from Services.Logger_Service import logger
+from app.Services.Logger_Service import logger
 
-from Services.Resource_Service import ResourceService
+from app.Services.Resource_Service import ResourceService
 res = ResourceService()
 current_images = [None, None, None, None, None, None, None, None]
 

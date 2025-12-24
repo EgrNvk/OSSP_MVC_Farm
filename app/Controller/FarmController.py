@@ -1,10 +1,10 @@
 import threading
 import time
 
-from DTO.FieldBonusDTO import FieldBonusDTO
-from View import FarmView
-from Services.Logger_Service import logger
-from Controller.MissionsController import MissionController
+from app.DTO.FieldBonusDTO import FieldBonusDTO
+from app.View import FarmView
+from app.Services.Logger_Service import logger
+from app.Controller.MissionsController import MissionController
 
 class FarmController:
     def __init__(self, model):

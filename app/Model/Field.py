@@ -1,4 +1,4 @@
-from DTO.FieldBonusDTO import FieldBonusDTO
+from app.DTO.FieldBonusDTO import FieldBonusDTO
 
 class Field:
     def __init__(self):

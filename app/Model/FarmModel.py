@@ -1,14 +1,13 @@
 import json
-from pathlib import Path
 
-from Model.CarrotPlant import CarrotPlant
-from Model.CornPlant import CornPlant
-from Model.Fertilizer import Fertilizer
-from Model.Field import Field
-from Model.PineapplePlant import PineapplePlant
-from Model.WatermelonPlant import WatermelonPlant
-from Model.WheatPlant import WheatPlant
-from Model.MissionModel import MissionModel
+from app.Model.CarrotPlant import CarrotPlant
+from app.Model.CornPlant import CornPlant
+from app.Model.Fertilizer import Fertilizer
+from app.Model.Field import Field
+from app.Model.PineapplePlant import PineapplePlant
+from app.Model.WatermelonPlant import WatermelonPlant
+from app.Model.WheatPlant import WheatPlant
+from app.Model.MissionModel import MissionModel
 
 # RESOURCES_FILE = Path(__file__).parent.parent/("resources.json")
 #
@@ -16,7 +15,7 @@ from Model.MissionModel import MissionModel
 #     RES=json.load(f)
 #
 # SAVE_FILE=RES.get("save_file", "farm_save.txt")
-from Services.Resource_Service import ResourceService
+from app.Services.Resource_Service import ResourceService
 
 
 
