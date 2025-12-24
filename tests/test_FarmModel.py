@@ -1,10 +1,16 @@
 import unittest
+import json
 from app.Model.FarmModel import FarmModel
+
+def read_save(path: str) -> dict:
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 class TestFarmModel(unittest.TestCase):
     def test_init_balance(self):
         model = FarmModel()
-        self.assertEqual(model.balance, 90)
+        data=read_save(model.save_file)
+        self.assertEqual(model.balance, data.get("balance"), model.balance)
 
     def test_init_fields_count(self):
         model = FarmModel()
@@ -12,38 +18,74 @@ class TestFarmModel(unittest.TestCase):
 
     def test_init_first_fields_unlocked(self):
         model = FarmModel()
-        for i in range(4):
-            self.assertTrue(model.fields[i].unlocked)
+        data = read_save(model.save_file)
+        saved_fields = data.get("fields")
+
+        if saved_fields:
+            for i in range(min(4, len(model.fields), len(saved_fields))):
+                expected = saved_fields[i].get("unlocked", True)
+                self.assertEqual(model.fields[i].unlocked, expected)
+        else:
+            for i in range(4):
+                self.assertTrue(model.fields[i].unlocked)
 
     def test_buy_fertilizer_success(self):
         model = FarmModel()
         model.balance = 100
 
+        data_before = read_save(model.save_file)
+        before = data_before["warehouse"]["Звичайне добриво (-20%)"]
+
         result = model.buy_fertilizer("Звичайне добриво (-20%)")
 
+        data_after = read_save(model.save_file)
+        after = data_after["warehouse"]["Звичайне добриво (-20%)"]
+
         self.assertTrue(result)
-        self.assertEqual(model.warehouse["Звичайне добриво (-20%)"], 3)
+        self.assertEqual(after, before + 1)
 
     def test_buy_fertilizer_not_enough_money(self):
         model = FarmModel()
         model.balance = 0
 
+        data_before=read_save(model.save_file)
+        before=data_before["warehouse"]["Звичайне добриво (-20%)"]
+
         result = model.buy_fertilizer("Звичайне добриво (-20%)")
 
+        data_after=read_save(model.save_file)
+        after=data_after["warehouse"]["Звичайне добриво (-20%)"]
+
         self.assertFalse(result)
+        self.assertEqual(after, before)
 
     def test_plant_on_empty_field(self):
         model = FarmModel()
 
+        data_before = read_save(model.save_file)
+        saved_fields = data_before.get("fields")
+
+        if saved_fields and len(saved_fields) > 0:
+            pass
+
         result = model.plant_on_field(0, "Пшениця")
+
+        data_after = read_save(model.save_file)
 
         self.assertTrue(result)
         self.assertEqual(model.fields[0].state, "growing")
+        self.assertIn("fields", data_after)
+        self.assertEqual(len(data_after["fields"]), len(model.fields))
 
     def test_plant_on_non_empty_field(self):
         model = FarmModel()
         model.fields[0].state = "growing"
 
+        data_before = read_save(model.save_file)
+
         result = model.plant_on_field(0, "Пшениця")
 
+        data_after = read_save(model.save_file)
+
         self.assertFalse(result)
+        self.assertEqual(data_after, data_before)
