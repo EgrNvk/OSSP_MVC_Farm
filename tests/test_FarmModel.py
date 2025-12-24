@@ -14,3 +14,20 @@ class TestFarmModel(unittest.TestCase):
         model = FarmModel()
         for i in range(4):
             self.assertTrue(model.fields[i].unlocked)
+
+    def test_buy_fertilizer_success(self):
+        model = FarmModel()
+        model.balance = 100
+
+        result = model.buy_fertilizer("Звичайне добриво (-20%)")
+
+        self.assertTrue(result)
+        self.assertEqual(model.warehouse["Звичайне добриво (-20%)"], 1)
+
+    def test_buy_fertilizer_not_enough_money(self):
+        model = FarmModel()
+        model.balance = 0
+
+        result = model.buy_fertilizer("Звичайне добриво (-20%)")
+
+        self.assertFalse(result)
