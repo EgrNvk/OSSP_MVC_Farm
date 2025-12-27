@@ -2,7 +2,7 @@ import threading
 import time
 
 from app.DTO.FieldBonusDTO import FieldBonusDTO
-from app.View import FarmView
+import app.View.FarmView as FarmView
 from app.Services.Logger_Service import logger
 from app.Controller.MissionsController import MissionController
 

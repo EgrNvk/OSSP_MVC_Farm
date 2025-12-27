@@ -1,7 +1,7 @@
-from Model.FarmModel import FarmModel
-from View import FarmView
-from Controller.FarmController import FarmController
-from Services.Logger_Service import logger
+from app.Model.FarmModel import FarmModel
+from app.View import FarmView
+from app.Controller.FarmController import FarmController
+from app.Services.Logger_Service import logger
 
 def main():
     logger.info("")
