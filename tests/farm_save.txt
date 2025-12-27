@@ -1,0 +1,54 @@
+{
+  "balance": 12,
+  "ambar": {
+    "Пшениця": 0,
+    "Морква": 0,
+    "Кукурудза": 0,
+    "Арбуз": 0,
+    "Ананас": 0
+  },
+  "warehouse": {
+    "Звичайне добриво (-20%)": 2,
+    "Супер добриво (-50%)": 0
+  },
+  "fields": [
+    {
+      "unlocked": true
+    },
+    {
+      "unlocked": true
+    },
+    {
+      "unlocked": true
+    },
+    {
+      "unlocked": true
+    },
+    {
+      "unlocked": false
+    },
+    {
+      "unlocked": false
+    },
+    {
+      "unlocked": false
+    },
+    {
+      "unlocked": false
+    }
+  ],
+  "missions": {
+    "unlock_all_fields_done": false,
+    "unlocked_fields": 0,
+    "total_fields": 8,
+    "wheat_stock_done": false,
+    "wheat_count": 0,
+    "save_1000_done": false,
+    "money": 0,
+    "organic_done": false,
+    "organic_plantings": 0,
+    "longest_session_done": false,
+    "longest_session_time": 0,
+    "current_session_time": 0
+  }
+}

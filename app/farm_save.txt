@@ -1,11 +1,11 @@
 {
-  "balance": 84,
+  "balance": 120,
   "ambar": {
-    "Пшениця": 10,
-    "Морква": 10,
-    "Кукурудза": 11,
-    "Арбуз": 10,
-    "Ананас": 9
+    "Пшениця": 9,
+    "Морква": 11,
+    "Кукурудза": 12,
+    "Арбуз": 11,
+    "Ананас": 10
   },
   "warehouse": {
     "Звичайне добриво (-20%)": 5,
@@ -41,14 +41,14 @@
     "unlock_all_fields_done": false,
     "unlocked_fields": 6,
     "total_fields": 8,
-    "wheat_stock_done": false,
-    "wheat_count": 9,
+    "wheat_stock_done": true,
+    "wheat_count": 10,
     "save_1000_done": false,
-    "money": 84,
+    "money": 108,
     "organic_done": true,
-    "organic_plantings": 37,
+    "organic_plantings": 43,
     "longest_session_done": true,
-    "longest_session_time": 14,
-    "current_session_time": 14
+    "longest_session_time": 16,
+    "current_session_time": 16
   }
 }
