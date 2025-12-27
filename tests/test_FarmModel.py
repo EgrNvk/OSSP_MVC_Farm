@@ -89,3 +89,96 @@ class TestFarmModel(unittest.TestCase):
 
         self.assertFalse(result)
         self.assertEqual(data_after, data_before)
+
+    def test_get_grow_time_positive(self):
+        model = FarmModel()
+
+        # посадимо рослину, щоб у поля була культура (якщо твоя логіка це вимагає)
+        model.plant_on_field(0, "Пшениця")
+
+        grow_time = model.get_grow_time(0)
+
+        self.assertIsInstance(grow_time, (int, float))
+        self.assertGreater(grow_time, 0)
+
+    def test_finish_growth_sets_ready(self):
+        model = FarmModel()
+
+        # готуємо поле як таке, що росте
+        model.fields[0].state = "growing"
+
+        # викликаємо завершення росту
+        result = model.finish_growth(0)
+
+        # якщо метод повертає bool — перевіримо
+        if isinstance(result, bool):
+            self.assertTrue(result)
+
+        # головне: стан поля має стати ready
+        self.assertEqual(model.fields[0].state, "ready")
+
+    def test_harvest_success(self):
+        model = FarmModel()
+
+        # спочатку посадимо, щоб field.plant НЕ був None
+        model.plant_on_field(0, "Пшениця")
+
+        # робимо готовим до збору
+        model.fields[0].state = "ready"
+
+        data_before = read_save(model.save_file)
+        before = data_before["ambar"].get("Пшениця", 0)
+
+        result = model.harvest(0)
+
+        data_after = read_save(model.save_file)
+        after = data_after["ambar"].get("Пшениця", 0)
+
+        if isinstance(result, bool):
+            self.assertTrue(result)
+
+        self.assertEqual(after, before + 1)
+
+    def test_sell_success(self):
+        model = FarmModel()
+
+        # підготовка: в амбарі є 1 пшениця
+        model.ambar["Пшениця"] = 1
+        model.balance = 0
+
+        # знайдемо ціну пшениці з plants (так само як у sell)
+        wheat = next(p for p in model.plants if p.name == "Пшениця")
+        expected_price = wheat.price
+
+        before_ambar = model.ambar["Пшениця"]
+        before_balance = model.balance
+
+        result = model.sell("Пшениця")
+
+        # sell повертає ціну
+        self.assertEqual(result, expected_price)
+
+        # амбар -1
+        self.assertEqual(model.ambar["Пшениця"], before_ambar - 1)
+
+        # баланс +ціна
+        self.assertEqual(model.balance, before_balance + expected_price)
+
+    def test_sell_fail_when_no_product(self):
+        model = FarmModel()
+
+        # підготовка: товару нема
+        model.ambar["Пшениця"] = 0
+        model.balance = 10
+
+        before_ambar = model.ambar["Пшениця"]
+        before_balance = model.balance
+
+        result = model.sell("Пшениця")
+
+        # повертає 0
+        self.assertEqual(result, 0)
+
+        # нічого не змінює
+        self.assertEqual(model.ambar["Пшениця"], before_ambar)
+        self.assertEqual(model.balance, before_balance)
